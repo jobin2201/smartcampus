@@ -40,7 +40,7 @@ The Smart Campus Management System is modularized into three main components: St
 - Input validation and exception handling (custom exceptions included)
 
 ## 🔗 Entity-Relationship Diagram 
-![Alt text](images/4.png)
+![Alt text](images/2.jpg)
 
 ## 🧩 Entities and Their Relationships
 
