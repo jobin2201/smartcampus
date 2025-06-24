@@ -178,3 +178,7 @@ git clone https://github.com/jobin2201/smartcampus.git
 ### 4️⃣ Build and Run
   - Right-click on Main.java.
   - Select Run As > Java Application.
+
+## 📝 License
+
+This project is licensed under the [MIT License](LICENSE).
