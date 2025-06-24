@@ -14,7 +14,100 @@ This is the foundational sprint for a Smart Campus Management System (SCMS) buil
 - Complete JDBC CRUD operations
   
 ## 🛠️ WorkFlow
+The Smart Campus Management System is modularized into three main components: Students, Faculty, and Management. Below is a summary of features implemented across these modules:
 ![Alt text](images/3.png)
+
+🎓 Student Module
+- Student registration and profile management
+- Course enrollment with input validation
+- View enrolled courses and assigned faculty
+- Timetable generation (Monday to Friday, 09:00–17:00)
+- Email and phone number validation
+- JDBC-based CRUD operations for student data
+
+👨‍🏫 Faculty Module
+- Faculty login with ID authentication
+- View assigned courses and enrolled students
+- Weekly teaching timetable display
+- Update faculty details (e.g., email) with validation
+- Grouped student distribution analysis
+
+🏢 Management Portal
+- Manage Courses (Add, View, Update, Delete, Simulate Enrollments)
+- Manage Faculty (Add, View, Update, Delete, Assign Timetables)
+- Manage Students (Add, View, Update, Delete)
+- Thread-based simulation for concurrent enrollments
+- Input validation and exception handling (custom exceptions included)
+
+## 🔗 Entity-Relationship Diagram 
+![Alt text](images/4.png)
+
+## 🧩 Entities and Their Relationships
+
+### 🧑‍🎓 Student
+- **student_id** (Primary Key): Unique ID for each student.
+- **Attributes**: `name`, `email`, `phone`, `dob`, `gender`, `department`, `year_of_study`
+
+### 📬 Notification
+- **Related to Student** through `student_id` (Foreign Key).
+- A student **receives notifications**.
+- **Attributes**: 
+  - `type` (info, reminder, alert)  
+  - `generated_by` (manual, genAI)  
+  - `timestamp`
+
+### 📝 Enrollment
+- **Junction table** between Student and Course.
+- A student **enrolls in multiple courses**.
+- **Attributes**:
+  - `enrollment_id` (Primary Key)  
+  - `student_id`  
+  - `course_id`  
+  - `enrolled_on`
+
+### 📚 Course
+- **course_id** (Primary Key): Unique course identifier.
+- **Attributes**: `course_name`, `credits`, `department`, `semester`
+- Each course is **taught by a Faculty** (`faculty_id` as Foreign Key)
+
+
+### 👨‍🏫 Faculty
+- **faculty_id** (Primary Key): Unique faculty identifier.
+- **Attributes**: `name`, `email`, `department`, `designation`
+- A faculty member:
+  - Teaches courses (linked via **Course**)
+  - Is scheduled for specific slots in the **Timetable**
+
+### 📅 Timetable
+- **Manages scheduling**
+- **Foreign Keys**: `course_id`, `faculty_id`
+- **Attributes**: `day_of_week`, `start_time`, `end_time`, `room_no`
+
+## 🔁 Step-by-Step System Flow
+### ✅ 1. Student Registration & Notifications
+- A student is created with `student_id`.
+- They receive notifications (reminders, alerts, info) stored in the **Notification** table.
+
+### ✅ 2. Enrollment Process
+- Students enroll in courses via the **Enrollment** table.
+- This creates a **many-to-many** link between **Student** and **Course**.
+
+### ✅ 3. Course-Faculty Link
+- Each course is assigned to a faculty using `faculty_id`.
+- So, when a student enrolls in a course, they are indirectly connected to the assigned faculty.
+
+### ✅ 4. Timetable Scheduling
+- Faculty are scheduled for specific time slots for each course in the **Timetable**.
+- This helps build a **weekly timetable view** for both students and faculty.
+
+## Entity Relationships
+| Entity  | Relation                | With Entity  | Notes                                                            |
+|-------- |------------------------|--------------|------------------------------------------------------------------|
+| Student | Receives               | Notification | 1:M (One student can receive many notifications)                |
+| Student | Enrolls                | Course       | M:N (Many students can enroll in many courses via `Enrollment`) |
+| Course  | Includes (is taught by)| Faculty      | M:1 (Each course is taught by one faculty)                      |
+| Faculty | Teaches                | Timetable    | 1:M (One faculty can have many timetable entries)               |
+| Course  | Is scheduled in        | Timetable    | 1:M (One course can have multiple schedule entries)             |
 
 ## 📁 Project Structure
 ```plaintext
